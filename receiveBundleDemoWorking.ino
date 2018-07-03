@@ -36,8 +36,20 @@ OSCErrorCode error;
 //unsigned int ledState = LOW;              // LOW means led is *on*
 
 void setup() {
- // pinMode(BUILTIN_LED, OUTPUT);
- // digitalWrite(BUILTIN_LED, ledState);    // turn *on* led
+  pinMode(D2, OUTPUT); //PWM MOTOR PIN Motor 1
+  pinMode(D7,OUTPUT); //PWM MOTOR PIN  Motor 2
+
+  pinMode(D3,OUTPUT);  //Motor 1
+  pinMode(D4,OUTPUT);  //Motor 1
+  pinMode(D5,OUTPUT);   //Motor 2
+  pinMode(D6,OUTPUT);   //Motor 2
+
+  digitalWrite(D3,LOW);
+  digitalWrite(D4,HIGH);
+  digitalWrite(D5,LOW);
+  digitalWrite(D6,HIGH);
+  
+ //digitalWrite(D2, ;    // turn *on* led
 
   Serial.begin(115200);
 
@@ -79,6 +91,10 @@ void receivedMessage(OSCMessage &msg) {
   Serial.print("\t");
   Serial.print(msg.getFloat(2));
   Serial.print("\n");
+
+  analogWrite(D2,(int)msg.getFloat(0));
+  analogWrite(D7,(int)msg.getFloat(0));
+  
   
 }
 
