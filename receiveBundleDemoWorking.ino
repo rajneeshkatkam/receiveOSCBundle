@@ -93,7 +93,7 @@ void receivedMessage(OSCMessage &msg) {
   Serial.print("\n");
 
   analogWrite(D2,(int)msg.getFloat(0));
-  analogWrite(D7,(int)msg.getFloat(0));
+  analogWrite(D7,(int)msg.getFloat(1));
   
   
 }
