@@ -36,18 +36,19 @@ OSCErrorCode error;
 //unsigned int ledState = LOW;              // LOW means led is *on*
 
 void setup() {
-  pinMode(D2, OUTPUT); //PWM MOTOR PIN Motor 1
-  pinMode(D7,OUTPUT); //PWM MOTOR PIN  Motor 2
+  pinMode(D2, OUTPUT); //PWM MOTOR PIN Motor Left
+  pinMode(D7,OUTPUT); //PWM MOTOR PIN  Motor Right
 
-  pinMode(D3,OUTPUT);  //Motor 1
-  pinMode(D4,OUTPUT);  //Motor 1
-  pinMode(D5,OUTPUT);   //Motor 2
-  pinMode(D6,OUTPUT);   //Motor 2
+  pinMode(D3,OUTPUT);  //Motor Left Direction Pin 1
+  pinMode(D4,OUTPUT);  //Motor Left Direction Pin 2
+  
+  pinMode(D5,OUTPUT);   //Motor Right Direction Pin 1
+  pinMode(D6,OUTPUT);   //Motor Right Direction Pin 2
 
-  digitalWrite(D3,LOW);
-  digitalWrite(D4,HIGH);
-  digitalWrite(D5,LOW);
-  digitalWrite(D6,HIGH);
+//  digitalWrite(D3,LOW);
+//  digitalWrite(D4,HIGH);
+//  digitalWrite(D5,LOW);
+//  digitalWrite(D6,HIGH);
   
  //digitalWrite(D2, ;    // turn *on* led
 
@@ -89,11 +90,24 @@ void receivedMessage(OSCMessage &msg) {
   Serial.print("\t");
   Serial.print(msg.getFloat(1));
   Serial.print("\t");
-  Serial.print(msg.getFloat(2));
+  Serial.print(msg.getInt(2));
+  Serial.print("\t");
+  Serial.print(msg.getInt(3));
+  Serial.print("\t");
+  Serial.print(msg.getInt(4));
+  Serial.print("\t");
+  Serial.print(msg.getInt(5));
   Serial.print("\n");
+  
 
-  analogWrite(D2,(int)msg.getFloat(0));
-  analogWrite(D7,(int)msg.getFloat(1));
+  analogWrite(D2,(int)msg.getFloat(0));       //Left Motor PWM
+  
+  analogWrite(D7,(int)msg.getFloat(1));       //Right Motor PWM
+  
+  digitalWrite(D3,(bool)msg.getInt(2));       //D3-0, D4-1 Forward for Left Motor (Left Motor Direction Pins)
+  digitalWrite(D4,(bool)msg.getInt(3));
+  digitalWrite(D5,(bool)msg.getInt(4));       //D5-0, D6-1 Forward for Right Motor  (Right Motor Direction Pins)
+  digitalWrite(D6,(bool)msg.getInt(5));
   
   
 }
@@ -108,7 +122,6 @@ void loop() {
       message.fill(Udp.read());
     }
     if (!message.hasError()) {
-      //Serial.println("message dispatch ");
       message.dispatch("/motorValues", receivedMessage,0);
       
     } else {
