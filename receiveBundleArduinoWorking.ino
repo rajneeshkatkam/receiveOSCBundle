@@ -14,8 +14,8 @@
 #include <OSCBundle.h>
 #include <OSCData.h>
 
-char ssid[] = "Resurrected";          // your network SSID (name)
-char pass[] = "rajneesh97";                    // your network password
+char ssid[] = "Mobotics";          // your network SSID (name)
+char pass[] = "12345678";          // your network password
 
 
 ////Static IP Address
